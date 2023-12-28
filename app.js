@@ -50,11 +50,25 @@ const ddlCreateTB = table => '' +
   table.fields.map(columnDefinition).join(',\n') +
   `\n) engine=innodb default charset=utf8mb4;\n`;
 
+const value = sample => (field) => field.Type.includes('char')
+  ? `"${field[sample]}"` : field[sample];
+
+// input: table
+// output: SQL DML insert statements
+const dmlInsert = table => '' +
+  `insert into ${table.tableName} (` +
+  table.fields.map(e => e.Field).join(', ').trim() +
+  ') values (' +
+  table.fields.map(value('Sample1')).join(', ').trim() +
+  '), (' +
+  table.fields.map(value('Sample2')).join(', ').trim() + ');'
+
 // input: metaData
 // output: SQL DDL statements
 const genDDL = metaData => '' +
   ddlCreateDB(metaData.dbName) +
-  metaData.tables.map(ddlCreateTB).join('\n');
+  metaData.tables.map(ddlCreateTB).join('\n') + '\n' +
+  metaData.tables.map(dmlInsert).join('\n');
 
 function main() {
   const argc = process.argv.length,
