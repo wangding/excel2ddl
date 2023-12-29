@@ -2,13 +2,16 @@
   "name": "excel2ddl",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "./app.js ./test/test.xlsx && cat test.sql"
+  "main": "./bin/table",
+  "bin": {
+    "table": "./bin/table"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["CASE", "table2ddl", "table2json", "table2api", "table2fe"],
+  "author": "wangding",
+  "license": "MIT",
   "dependencies": {
     "xlsx": "^0.18.5"
   }
